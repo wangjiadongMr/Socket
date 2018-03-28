@@ -43,15 +43,15 @@ public class Client extends AbstractLoggerInfo {
                     break;
                 }
                 printWriter.println(nickName);
-//                System.out.println("请输入文件目录");
-//                String filePath = scanner.nextLine();
-//                File file = new File(filePath);
-//                InputStreamReader inReader = new InputStreamReader(new FileInputStream(file), "utf-8");
-//                BufferedReader bf = new BufferedReader(inReader);
-//                String message = "";
-//                while ((message = bf.readLine()) != null) {
-//                    printWriter.print(message);
-//                }
+                System.out.println("请输入文件目录");
+                String filePath = scanner.nextLine();
+                File file = new File(filePath);
+                InputStreamReader inReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+                BufferedReader bf = new BufferedReader(inReader);
+                String message = "";
+                while ((message = bf.readLine()) != null) {
+                    printWriter.print(message);
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
