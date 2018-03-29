@@ -30,6 +30,7 @@ public class Client extends AbstractLoggerInfo {
     public void start() {
 
         while (isFlag) {
+
             try {
 
                 OutputStream outputStream = socket.getOutputStream();
