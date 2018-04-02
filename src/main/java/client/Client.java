@@ -11,8 +11,7 @@ import java.util.Scanner;
  * @author wang
  * @data on 2018/3/23
  */
-public class Client extends AbstractLoggerInfo implements Runnable
-{
+public class Client extends AbstractLoggerInfo {
     
     private Socket socket;
     private boolean isFlag;
@@ -31,6 +30,11 @@ public class Client extends AbstractLoggerInfo implements Runnable
 
     public void start() {
 
+
+        ClientThread clientThread = new ClientThread(socket, isFlag);
+        Thread t = new Thread(clientThread);
+        t.start();
+
         while (isFlag) {
 
             try {
@@ -46,15 +50,15 @@ public class Client extends AbstractLoggerInfo implements Runnable
                     break;
                 }
                 printWriter.println(nickName);
-                System.out.println("请输入文件目录");
-                String filePath = scanner.nextLine();
-                File file = new File(filePath);
-                InputStreamReader inReader = new InputStreamReader(new FileInputStream(file), "utf-8");
-                BufferedReader bf = new BufferedReader(inReader);
-                String message = "";
-                while ((message = bf.readLine()) != null) {
-                    printWriter.print(message);
-                }
+//                System.out.println("请输入文件目录");
+//                String filePath = scanner.nextLine();
+//                File file = new File(filePath);
+//                InputStreamReader inReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+//                BufferedReader bf = new BufferedReader(inReader);
+//                String message = "";
+//                while ((message = bf.readLine()) != null) {
+//                    printWriter.print(message);
+//                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -62,18 +66,12 @@ public class Client extends AbstractLoggerInfo implements Runnable
         }
     }
 
-    public void run() {
-        ClientThread clientThread = new ClientThread(socket, isFlag);
-        Thread thread = new Thread(clientThread);
-        thread.start();
-    }
+
 
     public static void main(String[] args) {
 
         Client client = new Client();
-        Thread thread = new Thread(client);
         client.start();
-        thread.start();
     }
 
 }

@@ -11,7 +11,7 @@ import java.net.Socket;
  * @author wang
  * @data on 2018/3/23
  */
-public class Server extends AbstractLoggerInfo implements  Runnable{
+public class Server extends AbstractLoggerInfo {
 
     private ServerSocket serverSocket;
     private Socket socket;
@@ -23,6 +23,7 @@ public class Server extends AbstractLoggerInfo implements  Runnable{
 
         try {
             serverSocket = new ServerSocket(8889);
+
         } catch (IOException e) {
             e.printStackTrace();
             logger.info("初始化出错");
@@ -31,27 +32,30 @@ public class Server extends AbstractLoggerInfo implements  Runnable{
 
     public void start() {
 
-        while (true) {
-            try {
-                System.out.println("等待一个客户连接········");
-                socket = serverSocket.accept();
-                System.out.println("········连接成功");
-                isConnection = true;
-                getMessage();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (socket != null) {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        System.out.println("关闭流异常........");
-                    }
+
+        try {
+            System.out.println("等待一个客户连接········");
+            socket = serverSocket.accept();
+            System.out.println("········连接成功");
+            isConnection = true;
+            ServerThread serverThread = new ServerThread(socket, isConnection);
+            Thread thread = new Thread(serverThread);
+            thread.start();
+            getMessage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("关闭流异常........");
                 }
             }
         }
     }
+
 
     public synchronized void getMessage() {
 
@@ -67,11 +71,11 @@ public class Server extends AbstractLoggerInfo implements  Runnable{
                 System.out.println(message);
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
 
                 try {
 
-                    if(socket == null){
+                    if (socket == null) {
 
                         inputStream.close();
                         bf.close();
@@ -85,16 +89,9 @@ public class Server extends AbstractLoggerInfo implements  Runnable{
     }
 
     public static void main(String[] args) {
-        Server server = new Server();
-        Thread thread = new Thread(server);
-        thread.start();
-        server.start();
-    }
 
-    public void run() {
-        ServerThread serverThread = new ServerThread(socket, isConnection);
-        Thread thread = new Thread(serverThread);
-        thread.start();
+        Server server = new Server();
+        server.start();
     }
 
 }
