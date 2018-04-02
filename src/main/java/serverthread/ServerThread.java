@@ -18,14 +18,14 @@ public class ServerThread implements Runnable {
   private String message;
 
   public void run() {
-
     sendMessage();
-
   }
 
   public ServerThread(Socket socket, boolean isConnection) {
+
     this.socket = socket;
     this.isConnection = isConnection;
+
   }
 
   public synchronized void sendMessage() {
@@ -34,7 +34,9 @@ public class ServerThread implements Runnable {
     OutputStreamWriter writer;
 
     while (isConnection) {
+
       try {
+
         outputStream = socket.getOutputStream();
         writer = new OutputStreamWriter(outputStream, "utf-8");
         PrintWriter printWriter = new PrintWriter(writer, true);
@@ -42,6 +44,7 @@ public class ServerThread implements Runnable {
         Scanner scanner = new Scanner(System.in);
         message = scanner.nextLine();
         printWriter.println(message);
+
       } catch (IOException e) {
         e.printStackTrace();
       }

@@ -1,5 +1,6 @@
 package client;
 
+import clientthread.ClientThread;
 import util.AbstractLoggerInfo;
 
 import java.io.*;
@@ -10,7 +11,8 @@ import java.util.Scanner;
  * @author wang
  * @data on 2018/3/23
  */
-public class Client extends AbstractLoggerInfo {
+public class Client extends AbstractLoggerInfo implements Runnable
+{
     
     private Socket socket;
     private boolean isFlag;
@@ -60,8 +62,18 @@ public class Client extends AbstractLoggerInfo {
         }
     }
 
-    public static void main(String[] args) {
-        Client client = new Client();
-        client.start();
+    public void run() {
+        ClientThread clientThread = new ClientThread(socket, isFlag);
+        Thread thread = new Thread(clientThread);
+        thread.start();
     }
+
+    public static void main(String[] args) {
+
+        Client client = new Client();
+        Thread thread = new Thread(client);
+        client.start();
+        thread.start();
+    }
+
 }

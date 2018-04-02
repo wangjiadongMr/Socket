@@ -1,5 +1,6 @@
 package server;
 
+import serverthread.ServerThread;
 import util.AbstractLoggerInfo;
 
 import java.io.*;
@@ -10,7 +11,7 @@ import java.net.Socket;
  * @author wang
  * @data on 2018/3/23
  */
-public class Server extends AbstractLoggerInfo {
+public class Server extends AbstractLoggerInfo implements  Runnable{
 
     private ServerSocket serverSocket;
     private Socket socket;
@@ -85,6 +86,15 @@ public class Server extends AbstractLoggerInfo {
 
     public static void main(String[] args) {
         Server server = new Server();
+        Thread thread = new Thread(server);
+        thread.start();
         server.start();
     }
+
+    public void run() {
+        ServerThread serverThread = new ServerThread(socket, isConnection);
+        Thread thread = new Thread(serverThread);
+        thread.start();
+    }
+
 }

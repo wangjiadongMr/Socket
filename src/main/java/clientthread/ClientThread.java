@@ -17,6 +17,7 @@ public class ClientThread implements Runnable {
 
     public void run() {
 
+        getMessage();
     }
 
     public ClientThread(Socket socket ,boolean isFlag) {
@@ -30,7 +31,6 @@ public class ClientThread implements Runnable {
         while (isFlag) {
 
             try {
-
                 InputStream inputStream = socket.getInputStream();
                 InputStreamReader reader = new InputStreamReader(inputStream, "utf-8");
                 BufferedReader bfReader = new BufferedReader(reader);
@@ -44,4 +44,5 @@ public class ClientThread implements Runnable {
             }
         }
     }
+
 }
