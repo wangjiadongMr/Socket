@@ -29,8 +29,6 @@ public class Client extends AbstractLoggerInfo {
     }
 
     public void start() {
-
-
         ClientThread clientThread = new ClientThread(socket, isFlag);
         Thread t = new Thread(clientThread);
         t.start();

@@ -32,11 +32,8 @@ public class ServerThread implements Runnable {
 
     OutputStream outputStream;
     OutputStreamWriter writer;
-
     while (isConnection) {
-
       try {
-
         outputStream = socket.getOutputStream();
         writer = new OutputStreamWriter(outputStream, "utf-8");
         PrintWriter printWriter = new PrintWriter(writer, true);
@@ -44,7 +41,6 @@ public class ServerThread implements Runnable {
         Scanner scanner = new Scanner(System.in);
         message = scanner.nextLine();
         printWriter.println(message);
-
       } catch (IOException e) {
         e.printStackTrace();
       }
